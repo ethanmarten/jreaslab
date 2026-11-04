@@ -29,4 +29,31 @@ $(document).ready(function () {
   $('.custom-prev-btn').click(function () {
     projectsOwl.trigger('prev.owl.carousel');
   });
-});s
+});
+
+$(document).ready(function(){
+    var scrollTop = 0;
+    
+    $(window).scroll(function(){
+        scrollTop = $(window).scrollTop();
+        
+        // تأثير الهيدر العام عند التمرير أكثر من 30 بكسل
+        $('.header').toggleClass('scrolled', scrollTop > 30);
+
+        // إضافة أو إزالة كلاس scrollNavbar وزر العودة للأعلى عند التمرير أكثر من 100 بكسل
+        if (scrollTop > 100) {
+            $('.navbar').addClass('scrollNavbar');
+            $('.backTop').addClass('visible');
+        } else {
+            $('.navbar').removeClass('scrollNavbar');
+            $('.backTop').removeClass('visible');
+        }
+    });
+
+    // حركة العودة للأعلى عند الضغط على الزر
+    $('.backTop').click(function(){
+        $('body, html').animate({
+            scrollTop: 0
+        }, 800);
+    });
+});

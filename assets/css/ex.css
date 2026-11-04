@@ -675,7 +675,45 @@
 }
 
 
+/* تنسيق أزرار السلايدر الدائرية */
+.slider-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--cyan-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
+.slider-btn:hover {
+  background: var(--cyan-primary);
+  color: var(--bg-dark-primary);
+  border-color: var(--cyan-primary);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+}
+
+/* تنسيق حشو كروت السلايدر لتجنب أي تداخل */
+.projects-carousel .item {
+  height: 100%;
+  padding: 5px 0;
+}
+
+.scrollNavbar{
+        background: #071a35!important; 
+    }
+.navbar.scrollNavbar {
+    background: #071a35 !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
 
 
 
