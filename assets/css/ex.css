@@ -434,6 +434,7 @@
 .footer-brand .logo-icon {
   color: #00f2fe;
   font-size: 2rem;
+
 }
 
 .footer-brand .brand-name {
@@ -717,3 +718,9 @@
 
 
 
+.navbar-logo {
+  height: 100px;           /* يمكنك زيادة أو تقليل الارتفاع حسب رغبتك (مثلاً بين 35px و 45px) */
+  width: auto;            /* الحفاظ على أبعاد اللوجو متناسقة */
+  object-fit: contain;    /* منع تشوه الصورة داخل الإطار */
+  max-width: none;        /* لإلغاء أي حدود عرض قد تعيق ظهور الأيقونة كاملة */
+}
