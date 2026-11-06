@@ -57,3 +57,35 @@ $(document).ready(function(){
         }, 800);
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const navbar = document.getElementById("mainNavbar");
+  const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+  const sections = document.querySelectorAll("section");
+
+  // 1. Scroll Effect (Dark Blurred Glass Effect)
+  window.addEventListener("scroll", function () {
+    if (window.scrollY > 40) {
+      navbar.classList.add("scrolled");
+    } else {
+      navbar.classList.remove("scrolled");
+    }
+
+    // 2. Scrollspy Effect (تحديد الرابط النشط تلقائياً أثناء النزول)
+    let currentSection = "";
+    sections.forEach((section) => {
+      const sectionTop = section.offsetTop - 100;
+      const sectionHeight = section.clientHeight;
+      if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+        currentSection = section.getAttribute("id");
+      }
+    });
+
+    navLinks.forEach((link) => {
+      link.classList.remove("active");
+      if (link.getAttribute("href") === `#${currentSection}`) {
+        link.classList.add("active");
+      }
+    });
+  });
+});
