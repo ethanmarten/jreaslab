@@ -1,91 +1,161 @@
-$(document).ready(function () {
-  var projectsOwl = $('.projects-carousel').owlCarousel({
-    loop: true,
-    margin: 20,
-    nav: false,         // إلغاء الأسهم الافتراضية لاعتماد الأزرار المخصصة
-    dots: false,        // إيقاف النقاط
-    autoplay: true,
-    autoplayTimeout: 4000,
-    autoplayHoverPause: true,
-    responsive: {
-      0: {
-        items: 1        // عرض بطاقة واحدة في الشاشات الصغيرة
-      },
-      768: {
-        items: 2        // عرض بطاقتين في التابلت
-      },
-      1200: {
-        items: 3        // عرض 3 بطاقات في الشاشات الكبيرة
+(() => {
+  'use strict';
+  const header = document.getElementById('mainNavbar');
+  const nav = document.getElementById('lab-navigation');
+  const toggle = document.querySelector('.lab-menu-toggle');
+  const links = [...nav.querySelectorAll('.lab-nav-link')];
+  const progress = document.querySelector('.reading-progress');
+  const backTop = document.querySelector('.back-to-top');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const mobile = window.matchMedia('(max-width: 991px)');
+  const sections = links.map(link => document.querySelector(link.hash));
+  const lightSections = [...document.querySelectorAll('.about-section, .services-section')];
+  let framePending = false;
+  let ranges = [];
+  let lightRanges = [];
+
+  function setMenu(open, restoreFocus = false) {
+    header.classList.toggle('menu-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    // Hidden mobile links must also be absent from the keyboard tab order.
+    nav.inert = mobile.matches && !open;
+    if (restoreFocus) toggle.focus();
+  }
+
+  toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
+  nav.addEventListener('click', event => {
+    if (event.target.closest('a')) setMenu(false);
+  });
+  header.querySelector('.lab-contact').addEventListener('click', () => setMenu(false));
+  header.querySelector('.lab-brand').addEventListener('click', () => setMenu(false));
+  document.addEventListener('pointerdown', event => {
+    if (!header.contains(event.target)) setMenu(false);
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && header.classList.contains('menu-open')) setMenu(false, true);
+  });
+  header.addEventListener('focusout', () => {
+    requestAnimationFrame(() => {
+      if (!header.contains(document.activeElement)) setMenu(false);
+    });
+  });
+  mobile.addEventListener('change', () => setMenu(false));
+  setMenu(false);
+
+  function measure() {
+    const top = element => element.getBoundingClientRect().top + window.scrollY;
+    ranges = sections.map(section => ({ id: section.id, top: top(section) }));
+    lightRanges = lightSections.map(section => ({ top: top(section), bottom: top(section) + section.offsetHeight }));
+    scheduleUpdate();
+  }
+
+  function updateScroll() {
+    framePending = false;
+    const y = window.scrollY;
+    const compact = header.classList.contains('scrolled') ? y > 32 : y > 110;
+    header.classList.toggle('scrolled', compact);
+    const headerCenter = y + header.offsetTop + header.offsetHeight / 2;
+    header.classList.toggle('on-light', lightRanges.some(range => headerCenter >= range.top && headerCenter < range.bottom));
+    const range = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    progress.style.transform = `scaleX(${Math.min(1, Math.max(0, y / range))})`;
+    backTop.hidden = y < 500;
+    const marker = y + Math.min(window.innerHeight * .3, 180);
+    let current = 'home';
+    // About appears before Services in the original page, irrespective of nav order.
+    let latestTop = -Infinity;
+    ranges.forEach(section => {
+      if (section.top <= marker && section.top > latestTop) {
+        current = section.id;
+        latestTop = section.top;
       }
+    });
+    links.forEach(link => {
+      const active = link.hash === `#${current}`;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  }
+
+  function scheduleUpdate() {
+    if (!framePending) {
+      framePending = true;
+      requestAnimationFrame(updateScroll);
     }
+  }
+  window.addEventListener('scroll', scheduleUpdate, { passive: true });
+  window.addEventListener('resize', measure, { passive: true });
+  window.addEventListener('load', measure);
+  window.addEventListener('pageshow', measure);
+  if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body);
+  document.fonts?.ready.then(measure);
+  measure();
+
+  const revealGroups = [
+    '.about-section .row > [class*="col-"]',
+    '.services-section > .container > div:first-child',
+    '.service-card', '.services-img-wrapper',
+    '.projects-section .row > [class*="col-"]',
+    '.inquiry-alt-section .row > .col-lg-5', '.glass-form-card'
+  ];
+  const reveals = [...document.querySelectorAll(revealGroups.join(','))];
+  reveals.forEach((element, index) => {
+    element.classList.add('lab-reveal');
+    element.style.setProperty('--reveal-delay', `${(index % 3) * 65}ms`);
   });
+  let revealObserver;
+  function configureReveals() {
+    revealObserver?.disconnect();
+    document.body.classList.remove('lab-motion');
+    if (reducedMotion.matches || !('IntersectionObserver' in window)) return;
+    revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => entry.target.classList.toggle('is-visible', entry.isIntersecting));
+    }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
+    reveals.forEach(element => revealObserver.observe(element));
+    document.body.classList.add('lab-motion');
+  }
+  reducedMotion.addEventListener('change', configureReveals);
+  configureReveals();
 
-  // تفعيل زر التالي (Next)
-  $('.custom-next-btn').click(function () {
-    projectsOwl.trigger('next.owl.carousel');
+  // Keep the existing project carousel with local dependencies only.
+  const pause = document.querySelector('.carousel-toggle');
+  if (!window.jQuery || !window.jQuery.fn.owlCarousel) {
+    document.querySelectorAll('.slider-btn').forEach(button => { button.hidden = true; });
+    return;
+  }
+  const $ = window.jQuery;
+  const carousel = $('.projects-carousel');
+  let paused = reducedMotion.matches;
+  let hovered = false;
+  let focused = false;
+  let dragging = false;
+  carousel.owlCarousel({
+    loop: true, margin: 20, nav: false, dots: false,
+    autoplay: false, autoplayTimeout: 4000, smartSpeed: reducedMotion.matches ? 0 : 450,
+    responsive: { 0: { items: 1 }, 768: { items: 2 }, 1200: { items: 3 } }
   });
-
-  // تفعيل زر السابق (Prev)
-  $('.custom-prev-btn').click(function () {
-    projectsOwl.trigger('prev.owl.carousel');
+  function syncCarousel() {
+    const stop = paused || document.hidden || hovered || focused || dragging;
+    carousel.trigger(stop ? 'stop.owl.autoplay' : 'play.owl.autoplay', [4000]);
+    pause.setAttribute('aria-pressed', String(paused));
+    pause.setAttribute('aria-label', paused ? 'Play project slideshow' : 'Pause project slideshow');
+    pause.querySelector('span').textContent = paused ? '▶' : 'Ⅱ';
+  }
+  pause.addEventListener('click', () => { paused = !paused; syncCarousel(); });
+  document.querySelector('.custom-next-btn').addEventListener('click', () => carousel.trigger('next.owl.carousel', [reducedMotion.matches ? 0 : 450]));
+  document.querySelector('.custom-prev-btn').addEventListener('click', () => carousel.trigger('prev.owl.carousel', [reducedMotion.matches ? 0 : 450]));
+  carousel.on('mouseenter', () => { hovered = true; syncCarousel(); });
+  carousel.on('mouseleave', () => { hovered = false; syncCarousel(); });
+  carousel.on('focusin', () => { focused = true; syncCarousel(); });
+  carousel.on('focusout', () => { focused = false; syncCarousel(); });
+  carousel.on('drag.owl.carousel', () => { dragging = true; syncCarousel(); });
+  carousel.on('dragged.owl.carousel', () => { dragging = false; syncCarousel(); });
+  document.addEventListener('visibilitychange', syncCarousel);
+  reducedMotion.addEventListener('change', () => {
+    paused = reducedMotion.matches;
+    carousel.data('owl.carousel').settings.smartSpeed = reducedMotion.matches ? 0 : 450;
+    syncCarousel();
   });
-});
-
-$(document).ready(function(){
-    var scrollTop = 0;
-    
-    $(window).scroll(function(){
-        scrollTop = $(window).scrollTop();
-        
-        // تأثير الهيدر العام عند التمرير أكثر من 30 بكسل
-        $('.header').toggleClass('scrolled', scrollTop > 30);
-
-        // إضافة أو إزالة كلاس scrollNavbar وزر العودة للأعلى عند التمرير أكثر من 100 بكسل
-        if (scrollTop > 100) {
-            $('.navbar').addClass('scrollNavbar');
-            $('.backTop').addClass('visible');
-        } else {
-            $('.navbar').removeClass('scrollNavbar');
-            $('.backTop').removeClass('visible');
-        }
-    });
-
-    // حركة العودة للأعلى عند الضغط على الزر
-    $('.backTop').click(function(){
-        $('body, html').animate({
-            scrollTop: 0
-        }, 800);
-    });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  const navbar = document.getElementById("mainNavbar");
-  const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
-  const sections = document.querySelectorAll("section");
-
-  // 1. Scroll Effect (Dark Blurred Glass Effect)
-  window.addEventListener("scroll", function () {
-    if (window.scrollY > 40) {
-      navbar.classList.add("scrolled");
-    } else {
-      navbar.classList.remove("scrolled");
-    }
-
-    // 2. Scrollspy Effect (تحديد الرابط النشط تلقائياً أثناء النزول)
-    let currentSection = "";
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop - 100;
-      const sectionHeight = section.clientHeight;
-      if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-        currentSection = section.getAttribute("id");
-      }
-    });
-
-    navLinks.forEach((link) => {
-      link.classList.remove("active");
-      if (link.getAttribute("href") === `#${currentSection}`) {
-        link.classList.add("active");
-      }
-    });
-  });
-});
+  syncCarousel();
+})();

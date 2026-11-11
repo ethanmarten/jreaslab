@@ -1,5 +1,5 @@
 <!Doctype html>
-<html>
+<html lang="en">
 
 <head>
   <title>Jreas Lab</title>
@@ -10,42 +10,41 @@
   <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
   <link rel="stylesheet" href="assets/css/owl.carousel.min.css" type="text/css">
   <link rel="stylesheet" href="assets/css/ex.css" type="text/css">
+  <link rel="stylesheet" href="assets/css/style.css?v=2" type="text/css">
 </head>
 
 <body>
 
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <header class="lab-header" id="mainNavbar">
+    <a class="lab-brand" href="#home" aria-label="Jreas Lab home">
+      <svg class="lab-symbol" viewBox="68 71 282 250" aria-hidden="true">
+        <defs><linearGradient id="lab-blue" x1="0" y1="1" x2="0" y2="0"><stop stop-color="#16bdec"/><stop offset="1" stop-color="#0063f8"/></linearGradient></defs>
+        <path fill="#00c2a8" d="M203.97 71.39h73.8l-61.5 110.9h-75.6zM108.57 197.39h99.4l-39.5 71.3H68.27z"/>
+        <path fill="url(#lab-blue)" d="M349.07 122.99l-110.1 197.5h-72l109.7-197.5z"/>
+      </svg>
+      <span class="lab-wordmark" aria-hidden="true"><span>Jreas<span class="lab-wordmark-accent">Lab</span></span><small>FROM GAZA TO THE WORLD</small></span>
+    </a>
+    <nav class="lab-navigation" id="lab-navigation" aria-label="Main navigation">
+      <a class="lab-nav-link active" href="#home" aria-current="location">Home</a>
+      <a class="lab-nav-link" href="#services">Services</a>
+      <a class="lab-nav-link" href="#projects">Projects</a>
+      <a class="lab-nav-link" href="#about">About</a>
+      <a class="lab-nav-link" href="#contact">Contact</a>
+    </nav>
+    <a href="#contact" class="lab-contact">Let's talk <span aria-hidden="true">↗</span></a>
+    <button class="lab-menu-toggle" type="button" aria-expanded="false" aria-controls="lab-navigation" aria-label="Open navigation"><span></span><span></span></button>
+  </header>
+
+
   <div class="hero-container" id="home">
     <div class="hero-overlay"></div>
 
-    <!-- Header / Navbar -->
-  <!-- Header / Navbar -->
-<header class="relative-z">
-  <nav class="navbar navbar-expand-lg fixed-top custom-navbar" id="mainNavbar">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center gap-2" href="#home">
-        <img src="assets/img/l1.png" alt="JreasLab Logo" class="logo-img" id="navbarLogo" />
-      </a>
 
-      <button class="navbar-toggler navbar-dark border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto gap-lg-2">
-          <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-          <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-        </ul>
-        <a href="#contact" class="btn btn-get-in-touch ms-lg-3">Get in Touch &rarr;</a>
-      </div>
-    </div>
-  </nav>
-</header>
 
     <!-- Main Hero Content -->
-    <main class="container relative-z my-auto py-5">
+    <main class="container relative-z my-auto py-5" id="main-content" tabindex="-1">
       <div class="row align-items-center">
         <div class="col-lg-7">
           <!-- Badge -->
@@ -77,6 +76,7 @@
         </div>
       </div>
     </main>
+    <a class="hero-scroll-cue" href="#about">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a>
 
   </div>
      
@@ -88,7 +88,7 @@
         <!-- Image Left Column -->
         <div class="col-lg-5 col-md-5 text-center">
           <div class="about-img-wrapper">
-            <img src="assets/img/about.png" alt="JreasLab Team Office" class="img-fluid rounded-4 shadow-sm">
+            <img loading="lazy" decoding="async" src="assets/img/about.png" alt="JreasLab Team Office" class="img-fluid rounded-4 shadow-sm">
           </div>
         </div>
 
@@ -155,7 +155,7 @@
     <div class="container">
       
       <!-- Section Header -->
-      <div cla3ss="d-flex flex-wrap justify-content-between align-items-end mb-4">
+      <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
         <div>
           <div class="services-badge mb-2">
             <i class="fa-solid fa-sliders text-warning"></i>
@@ -250,7 +250,7 @@
         <!-- Right Side Image Area -->
         <div class="col-lg-4 d-none d-lg-block text-center position-relative">
           <div class="services-img-wrapper">
-            <img src="assets/img/Laptop and plant • Original image.png" alt="Workspace" class="img-fluid rounded-4 shadow-lg" style="max-height: 380px; object-fit: cover;">
+            <img loading="lazy" decoding="async" src="assets/img/Laptop and plant • Original image.png" alt="Workspace" class="img-fluid rounded-4 shadow-lg" style="max-height: 380px; object-fit: cover;">
           </div>
         </div>
 
@@ -286,6 +286,7 @@
   
   <!-- Navigation Buttons (Prev / Next) -->
   <div class="d-flex justify-content-end gap-2 mb-3">
+    <button class="slider-btn carousel-toggle" type="button" aria-label="Pause project slideshow" aria-pressed="false"><span aria-hidden="true">Ⅱ</span></button>
     <button class="slider-btn custom-prev-btn" aria-label="Previous">
       <i class="fa-solid fa-chevron-left"></i>
     </button>
@@ -301,7 +302,7 @@
     <div class="item">
       <div class="project-card">
         <div class="project-img-wrapper">
-          <img src="assets/img/app1 (2).png" alt="GulfMark" class="img-fluid">
+          <img loading="lazy" decoding="async" src="assets/img/app1 (2).png" alt="GulfMark" class="img-fluid">
         </div>
         <div class="project-content">
           <div class="d-flex justify-content-between align-items-start mb-1">
@@ -324,7 +325,7 @@
     <div class="item">
       <div class="project-card">
         <div class="project-img-wrapper">
-          <img src="assets/img/app1 (1).png" alt="GulfMark" class="img-fluid">
+          <img loading="lazy" decoding="async" src="assets/img/app1 (1).png" alt="GulfMark" class="img-fluid">
         </div>
         <div class="project-content">
           <div class="d-flex justify-content-between align-items-start mb-1">
@@ -347,7 +348,7 @@
     <div class="item">
       <div class="project-card">
         <div class="project-img-wrapper">
-          <img src="assets/img/app1 (2).png" alt="GulfMark" class="img-fluid">
+          <img loading="lazy" decoding="async" src="assets/img/app1 (2).png" alt="GulfMark" class="img-fluid">
         </div>
         <div class="project-content">
           <div class="d-flex justify-content-between align-items-start mb-1">
@@ -370,7 +371,7 @@
     <div class="item">
       <div class="project-card">
         <div class="project-img-wrapper">
-          <img src="assets/img/app1 (3).png" alt="GulfMark" class="img-fluid">
+          <img loading="lazy" decoding="async" src="assets/img/app1 (3).png" alt="GulfMark" class="img-fluid">
         </div>
         <div class="project-content">
           <div class="d-flex justify-content-between align-items-start mb-1">
@@ -449,7 +450,7 @@
               <a href="mailto:info@jreaslab.com" class="text-cyan text-decoration-none fw-semibold small">info@jreaslab.com</a>
             </div>
           </div>
-          <a href="https://wa.me/970597747340" target="_blank" class="btn btn-outline-light btn-sm rounded-pill px-3">
+          <a href="https://wa.me/970597747340" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm rounded-pill px-3">
             <i class="fa-brands fa-whatsapp text-success me-1"></i> Chat
           </a>
         </div>
@@ -566,19 +567,19 @@
         <div class="col-lg-3 col-md-12 text-center text-lg-end ms-auto">
         <div class="d-flex justify-content-center justify-content-lg-end gap-2 mb-2 flex-wrap">
             <!-- LinkedIn -->
-            <a href="https://www.linkedin.com/company/jreas-lab1/posts/?feedView=all" target="_blank" class="social-icon-btn" title="LinkedIn">
+            <a href="https://www.linkedin.com/company/jreas-lab1/posts/?feedView=all" target="_blank" rel="noopener noreferrer" class="social-icon-btn" title="LinkedIn">
               <i class="fa-brands fa-linkedin-in"></i>
             </a>
             <!-- X (Twitter) -->
-            <a href="https://x.com/JreasLab" target="_blank" class="social-icon-btn" title="X">
+            <a href="https://x.com/JreasLab" target="_blank" rel="noopener noreferrer" class="social-icon-btn" title="X">
               <i class="fa-brands fa-x-twitter"></i>
             </a>
             <!-- Instagram -->
-            <a href="https://www.instagram.com/jreas_lab?igsh=eGZ6ajFjb2Nydmts" target="_blank" class="social-icon-btn" title="Instagram">
+            <a href="https://www.instagram.com/jreas_lab?igsh=eGZ6ajFjb2Nydmts" target="_blank" rel="noopener noreferrer" class="social-icon-btn" title="Instagram">
               <i class="fa-brands fa-instagram"></i>
             </a>
             <!-- WhatsApp -->
-            <a href="https://wa.me/970597747340" target="_blank" class="social-icon-btn" title="WhatsApp">
+            <a href="https://wa.me/970597747340" target="_blank" rel="noopener noreferrer" class="social-icon-btn" title="WhatsApp">
               <i class="fa-brands fa-whatsapp"></i>
             </a>
             <!-- Email -->
@@ -595,12 +596,13 @@
     </div>
   </footer>
 
+  <a class="back-to-top" href="#home" aria-label="Back to top" hidden><span aria-hidden="true">↑</span></a>
+
   <!-- Scripts -->
   <script src="assets/js/jquery3.3.1.js"></script>
   <script src="assets/js/bootstrap.min.js"></script>
   <script src="assets/js/owl.carousel.min.js"></script>
-  <script src="assets/js/ex.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/ex.js?v=2"></script>
 
 </body>
 
