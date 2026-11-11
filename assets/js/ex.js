@@ -118,42 +118,30 @@
   reducedMotion.addEventListener('change', configureReveals);
   configureReveals();
 
-  // Keep the existing project carousel with local dependencies only.
-  const pause = document.querySelector('.carousel-toggle');
+  // The project slideshow starts automatically and keeps moving on hover.
   if (!window.jQuery || !window.jQuery.fn.owlCarousel) {
     document.querySelectorAll('.slider-btn').forEach(button => { button.hidden = true; });
     return;
   }
   const $ = window.jQuery;
   const carousel = $('.projects-carousel');
-  let paused = reducedMotion.matches;
-  let hovered = false;
-  let focused = false;
   let dragging = false;
   carousel.owlCarousel({
     loop: true, margin: 20, nav: false, dots: false,
-    autoplay: false, autoplayTimeout: 4000, smartSpeed: reducedMotion.matches ? 0 : 450,
+    autoplay: !reducedMotion.matches, autoplayTimeout: 4000,
+    autoplayHoverPause: false, smartSpeed: reducedMotion.matches ? 0 : 450,
     responsive: { 0: { items: 1 }, 768: { items: 2 }, 1200: { items: 3 } }
   });
   function syncCarousel() {
-    const stop = paused || document.hidden || hovered || focused || dragging;
+    const stop = reducedMotion.matches || document.hidden || dragging;
     carousel.trigger(stop ? 'stop.owl.autoplay' : 'play.owl.autoplay', [4000]);
-    pause.setAttribute('aria-pressed', String(paused));
-    pause.setAttribute('aria-label', paused ? 'Play project slideshow' : 'Pause project slideshow');
-    pause.querySelector('span').textContent = paused ? '▶' : 'Ⅱ';
   }
-  pause.addEventListener('click', () => { paused = !paused; syncCarousel(); });
   document.querySelector('.custom-next-btn').addEventListener('click', () => carousel.trigger('next.owl.carousel', [reducedMotion.matches ? 0 : 450]));
   document.querySelector('.custom-prev-btn').addEventListener('click', () => carousel.trigger('prev.owl.carousel', [reducedMotion.matches ? 0 : 450]));
-  carousel.on('mouseenter', () => { hovered = true; syncCarousel(); });
-  carousel.on('mouseleave', () => { hovered = false; syncCarousel(); });
-  carousel.on('focusin', () => { focused = true; syncCarousel(); });
-  carousel.on('focusout', () => { focused = false; syncCarousel(); });
   carousel.on('drag.owl.carousel', () => { dragging = true; syncCarousel(); });
   carousel.on('dragged.owl.carousel', () => { dragging = false; syncCarousel(); });
   document.addEventListener('visibilitychange', syncCarousel);
   reducedMotion.addEventListener('change', () => {
-    paused = reducedMotion.matches;
     carousel.data('owl.carousel').settings.smartSpeed = reducedMotion.matches ? 0 : 450;
     syncCarousel();
   });

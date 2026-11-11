@@ -67,7 +67,6 @@ html { scroll-padding-top: 110px; }
 .about-img-wrapper:hover img, .services-img-wrapper:hover img { transform: scale(1.025); }
 .slider-btn { color: #74e5e1; }
 .slider-btn:hover { color: #071325; background: #00d2c8; border-color: #00d2c8; }
-.carousel-toggle { font: 600 14px/1 Arial, sans-serif; }
 /* Keep the existing light sections and dark project area; soften their edges. */
 .about-section { background: linear-gradient(180deg, #f0f7fd, #f4f8fb); }
 .services-section { background: linear-gradient(180deg, #f4f8fb, #f7fafc); }
