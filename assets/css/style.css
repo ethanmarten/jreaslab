@@ -111,60 +111,51 @@ html { scroll-padding-top: 110px; }
 
 .slider-btn[hidden] { display: none; }
 
-/* A single sunset canvas blends the light services area into projects and contact. */
-.projects-contact-flow {
-  position: relative;
+/* Blur is clipped to Projects; Contact keeps its original sharp sunset image. */
+.projects-section {
   isolation: isolate;
   overflow: hidden;
   background: #071a35;
+  padding-top: 140px !important;
+  padding-bottom: 64px !important;
 }
-.projects-contact-flow::before,
-.projects-contact-flow::after {
+.projects-section::before,
+.projects-section::after {
   content: '';
   position: absolute;
   pointer-events: none;
   z-index: -1;
 }
-.projects-contact-flow::before {
+.projects-section::before {
   inset: -28px;
-  background: url('../img/backHero.png') center top / cover no-repeat;
+  background: url('../img/backHero.png') center center / cover no-repeat;
   filter: blur(16px);
 }
-.projects-contact-flow::after {
+.projects-section::after {
   inset: 0;
-  background:
-    linear-gradient(180deg, #f7fafc 0%, #f7fafcf2 2%, #c2d3df96 6%, #0a223ce6 15%, #071a35b8 40%, #071a3570 70%, #071a35 100%),
-    radial-gradient(ellipse at 90% 42%, #f2a06b38, transparent 60%);
+  background: linear-gradient(180deg, #f7fafc 0%, #f7fafcf2 3%, #c2d3df96 11%, #0a223ce6 30%, #071a35b8 100%);
 }
-.projects-contact-flow .projects-section {
-  background: transparent;
-  padding-top: 140px !important;
-  padding-bottom: 64px !important;
-}
-.projects-contact-flow .inquiry-alt-section { background: transparent; }
-.projects-contact-flow .projects-subtitle { color: #c6d6e8; }
-.projects-contact-flow .project-card {
+.projects-section .projects-subtitle { color: #c6d6e8; }
+.projects-section .project-card {
   background: #0b192bcc;
   border-color: #d8e9ff24;
   box-shadow: 0 12px 32px #020d1f28;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
-.projects-contact-flow .project-card:hover {
+.projects-section .project-card:hover {
   border-color: #58dfdc70;
   box-shadow: 0 18px 40px #020d1f55;
 }
-.projects-contact-flow .glass-form-card { background: #0b192bce; }
-.projects-contact-flow .inquiry-alt-section .text-muted { color: #b8c8db !important; }
-.projects-contact-flow .slider-btn { background: #0b192b66; border-color: #d8e9ff33; }
-.projects-contact-flow .slider-btn:hover { background: #00d2c8; }
+.projects-section .slider-btn { background: #0b192b66; border-color: #d8e9ff33; }
+.projects-section .slider-btn:hover { background: #00d2c8; }
 .footer-compact .footer-brand img { width: 144px; height: auto; }
 .footer-compact .social-icon-btn { width: 28px; height: 28px; font-size: .75rem; }
 .footer-compact .copyright-text { font-size: .65rem; }
 @media (max-width: 767px) {
-  .projects-contact-flow .projects-section { padding-top: 110px !important; padding-bottom: 40px !important; }
-  .projects-contact-flow::before { filter: blur(12px); }
-  .projects-contact-flow::after {
-    background: linear-gradient(180deg, #f7fafc 0%, #f7fafced 1%, #b5c9d582 3%, #0a223cea 8%, #071a35c4 42%, #071a3580 76%, #071a35 100%);
+  .projects-section { padding-top: 110px !important; padding-bottom: 40px !important; }
+  .projects-section::before { filter: blur(12px); }
+  .projects-section::after {
+    background: linear-gradient(180deg, #f7fafc 0%, #f7fafced 2%, #b5c9d582 7%, #0a223cea 20%, #071a35b8 100%);
   }
 }
