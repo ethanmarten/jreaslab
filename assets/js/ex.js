@@ -5,7 +5,6 @@
   const toggle = document.querySelector('.lab-menu-toggle');
   const links = [...nav.querySelectorAll('.lab-nav-link')];
   const progress = document.querySelector('.reading-progress');
-  const backTop = document.querySelector('.back-to-top');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const mobile = window.matchMedia('(max-width: 991px)');
   const sections = links.map(link => document.querySelector(link.hash));
@@ -59,7 +58,6 @@
     header.classList.toggle('on-light', lightRanges.some(range => headerCenter >= range.top && headerCenter < range.bottom));
     const range = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
     progress.style.transform = `scaleX(${Math.min(1, Math.max(0, y / range))})`;
-    backTop.hidden = y < 500;
     const marker = y + Math.min(window.innerHeight * .3, 180);
     let current = 'home';
     // About appears before Services in the original page, irrespective of nav order.
