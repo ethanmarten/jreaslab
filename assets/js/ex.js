@@ -116,6 +116,42 @@
   reducedMotion.addEventListener('change', configureReveals);
   configureReveals();
 
+  // Bootstrap supplies the modal focus trap, backdrop, Escape and focus restoration.
+  document.querySelectorAll('.service-inquiry').forEach(button => {
+    button.addEventListener('click', () => {
+      const modal = button.closest('.modal');
+      const service = document.getElementById(`srv-${button.dataset.service}`);
+      const project = document.getElementById('projectScope');
+      service.checked = true;
+      if (!project.value.trim()) project.value = button.dataset.serviceName;
+      modal.addEventListener('hidden.bs.modal', () => {
+        document.getElementById('contact').scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth', block: 'start' });
+        project.focus({ preventScroll: true });
+      }, { once: true });
+      window.bootstrap.Modal.getOrCreateInstance(modal).hide();
+    });
+  });
+
+  const inquiryForm = document.getElementById('altInquiryForm');
+  inquiryForm.addEventListener('submit', event => {
+    event.preventDefault();
+    if (!inquiryForm.reportValidity()) return;
+    const services = [...inquiryForm.querySelectorAll('input[name="services"]:checked')].map(input => input.value);
+    const body = [
+      'Hello JreasLab,', '',
+      document.getElementById('projectDesc').value.trim(), '',
+      `Services: ${services.join(', ') || 'I would like some advice'}`,
+      `Budget: ${document.getElementById('budgetSelect').value}`, '',
+      `Name: ${document.getElementById('clientName').value.trim()}`,
+      `Email: ${document.getElementById('clientEmail').value.trim()}`
+    ].join('\n');
+    const subject = document.getElementById('projectScope').value.trim();
+    const status = document.getElementById('inquiry-status');
+    status.hidden = false;
+    status.textContent = 'Your draft will open in your email app. If it does not open, write to info@jreaslab.com.';
+    window.location.href = `mailto:info@jreaslab.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+
   // The project slideshow starts automatically and keeps moving on hover.
   if (!window.jQuery || !window.jQuery.fn.owlCarousel) {
     document.querySelectorAll('.slider-btn').forEach(button => { button.hidden = true; });
